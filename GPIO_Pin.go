@@ -63,17 +63,13 @@ func (r GPIO_Pin) read(where string) string {
 func (r GPIO_Pin) Export() GPIO_Pin {
 	r.Path = r.BasePath()
 	if _, err := os.Stat(r.Path); os.IsNotExist(err) {
-		log.Printf("pin directory not present, error: %s", err)
 		// export gpio pin
 		err := ioutil.WriteFile(GPIO_EXPORT, []byte(r.Name), 0666)
 		if err != nil {
 			log.Println(err)
 		} else {
 			time.Sleep(2000 * time.Millisecond)
-			log.Printf("GPIO.Pin %s exported, file: %s", r.Name, GPIO_EXPORT)
 		}
-	} else {
-		log.Printf("path %s already exists", r.Path)
 	}
 	return GPIO_Pin{}
 }
@@ -88,28 +84,23 @@ func (r GPIO_Pin) Unexport() GPIO_Pin {
 			log.Println(err)
 		} else {
 			time.Sleep(2000 * time.Millisecond)
-			log.Printf("GPIO.Pin %s unexported, file: %s", r.Name, GPIO_UNEXPORT)
 		}
 	}
 	return GPIO_Pin{}
 }
 func (r GPIO_Pin) Input() GPIO_Pin {
-	log.Printf("PIN %s INPUT", r.Name)
 	return r.write(DIRECTION, IN)
 }
 
 func (r GPIO_Pin) Output() GPIO_Pin {
-	log.Printf("PIN %s OUTPUT", r.Name)
 	return r.write(DIRECTION, OUT)
 }
 
 func (r GPIO_Pin) High() GPIO_Pin {
-	log.Printf("PIN %s HIGH", r.Name)
 	return r.write(VALUE, ON)
 }
 
 func (r GPIO_Pin) Low() GPIO_Pin {
-	log.Printf("PIN %s LOW", r.Name)
 	return r.write(VALUE, OFF)
 }
 
