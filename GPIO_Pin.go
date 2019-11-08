@@ -107,3 +107,7 @@ func (r GPIO_Pin) Low() GPIO_Pin {
 func (r GPIO_Pin) Status() string {
 	return r.read(VALUE)
 }
+
+func (r GPIO_Pin) Direction() string {
+	return r.read(DIRECTION)
+}
